@@ -11,7 +11,6 @@ const EditDetail = loadable(() => import(/* webpackChunkName: 'index' */ '@/view
 
 const UpLoadSQL = loadable(() => import(/* webpackChunkName: 'index' */ '@/views/SQL/UpLoad'))
 
-
 //
 // // 通用
 // const ButtonView = loadable(() => import(/* webpackChunkName: 'button' */ '@/views/PublicView/Button'))
@@ -46,10 +45,10 @@ const routes = [
     { path: '/sql/list', exact: true, name: 'ListDB', component: ListDB, auth: [1] },
     { path: '/sql/list/:db_id', exact: true, name: 'ListTable', component: ListTable, auth: [1] },
     { path: '/sql/list/:db_id/:table_id', exact: true, name: 'ListDetail', component: ListDetail, auth: [1] },
-    { path: '/sql/edit', exact: true, name: 'EditDB', component: EditDB, auth: [1] },
-    { path: '/sql/edit/:db_id', exact: true, name: 'EditTable', component: EditTable, auth: [1] },
-    { path: '/sql/edit/:db_id/:table_id', exact: true, name: 'EditDetail', component: EditDetail, auth: [1] },
-    { path: '/sql/upload', exact: true, name: 'UpLoadSQL', component: UpLoadSQL, auth: [1] },
+    { path: '/sql/edit/:db_id', exact: true, name: 'EditDB', component: EditDB, auth: [1] },
+    { path: '/sql/edit/:db_id/:table_id', exact: true, name: 'EditTable', component: EditTable, auth: [1] },
+    { path: '/sql/edit/:db_id/:table_id/:c_id', exact: true, name: 'EditDetail', component: EditDetail, auth: [1] },
+    { path: '/sql/upload', exact: true, name: 'UpLoadSQL', component: UpLoadSQL, auth: [1] }
     // { path: '/public/button', exact: false, name: '按钮', component: ButtonView, auth: [1] },
     // { path: '/public/icon', exact: false, name: '图标', component: IconView, auth: [1] },
     // { path: '/nav/dropdown', exact: false, name: '下拉菜单', component: DropdownView },

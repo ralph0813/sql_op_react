@@ -1,3 +1,3 @@
-import EditDb from './EditDB.jsx'
+import EditDB from './EditDB.jsx'
 
-export default EditDb
+export default EditDB

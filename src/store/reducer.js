@@ -1,50 +1,22 @@
-// import {getDBList} from "../services/db";
-// import store from "./index";
-import {Button, Divider} from "antd";
-import React from "react";
-import {getDBList} from "../services/db";
+import React from 'react'
+import { getDBList } from '../services/db'
 
 const defaultStore = {
-    columns: [
+    dbList: [
         {
-            title: '数据库编号',
-            dataIndex: 'id_',
-            key: 'id_',
-            render: text => <Button type='link'>{text}</Button>
-        },
-        {
-            title: '数据库名',
-            dataIndex: 'name',
-            key: 'name',
-            render: text => <Button type='link'>{text}</Button>
-        },
-        {
-            title: '操作',
-            key: 'action',
-            render: (text, record) => (
-                <span>
-                    <Button type='primary'> Edit </Button>
-                    <Divider type='vertical'/>
-                    <Button type='danger'>Delete</Button>
-                </span>
-            )
+            key: 0,
+            id_: 1,
+            name: 'db'
         }
     ],
-    dbList: [{
-        key: 0,
-        id_: 1,
-        name: 'db'
-    }],
-    tableList: [],
+    tableList: []
 }
 
 export default (state = defaultStore, action) => {
     switch (action.type) {
         case 'GET_DB_LIST':
-            let newState = JSON.parse(JSON.stringify(state))
             let new_db_list = []
             getDBList().then(res => {
-                console.log(res.data.data)
                 for (let index in res.data.data) {
                     new_db_list.push({
                         key: res.data.data[index]['id'],
@@ -53,8 +25,19 @@ export default (state = defaultStore, action) => {
                     })
                 }
             })
-            newState.dbList = new_db_list
-            return newState
+            return { ...state, dbList: new_db_list }
+        case 'GET_TABLE_LIST':
+            let new_table_list = []
+            getDBList().then(res => {
+                for (let index in res.data.data) {
+                    new_table_list.push({
+                        key: res.data.data[index]['id'],
+                        id_: res.data.data[index]['id'],
+                        name: res.data.data[index]['name']
+                    })
+                }
+            })
+            return { ...state, tableList: new_table_list }
         default:
             return state
     }
