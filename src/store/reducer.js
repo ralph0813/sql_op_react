@@ -1,8 +1,8 @@
-import {MENU_TOGGLE} from './actionType'
-import {getDBList} from "../services/db";
-import store from "./index";
+// import {getDBList} from "../services/db";
+// import store from "./index";
 import {Button, Divider} from "antd";
 import React from "react";
+import {getDBList} from "../services/db";
 
 const defaultStore = {
     columns: [
@@ -23,14 +23,18 @@ const defaultStore = {
             key: 'action',
             render: (text, record) => (
                 <span>
-                            <Button type='primary'> Edit </Button>
-                            <Divider type='vertical'/>
-                            <Button type='danger'>Delete</Button>
-                        </span>
+                    <Button type='primary'> Edit </Button>
+                    <Divider type='vertical'/>
+                    <Button type='danger'>Delete</Button>
+                </span>
             )
         }
     ],
-    dbList: [],
+    dbList: [{
+        key: 0,
+        id_: 1,
+        name: 'db'
+    }],
     tableList: [],
 }
 
@@ -38,8 +42,18 @@ export default (state = defaultStore, action) => {
     switch (action.type) {
         case 'GET_DB_LIST':
             let newState = JSON.parse(JSON.stringify(state))
-            newState.dbList = action.db_list
-            console.log(newState)
+            let new_db_list = []
+            getDBList().then(res => {
+                console.log(res.data.data)
+                for (let index in res.data.data) {
+                    new_db_list.push({
+                        key: res.data.data[index]['id'],
+                        id_: res.data.data[index]['id'],
+                        name: res.data.data[index]['name']
+                    })
+                }
+            })
+            newState.dbList = new_db_list
             return newState
         default:
             return state
