@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { Button, Card, Divider, Table } from 'antd'
-import store from '../../../../store'
+import { getDBList } from '../../../../services/db'
 
 class ListDB extends Component {
     constructor(props) {
         super(props)
-        this.state = store.getState()
+        this.state = {
+            list: []
+        }
     }
 
     columns = [
@@ -52,17 +54,32 @@ class ListDB extends Component {
     ]
 
     componentDidMount() {
-        let action = {
-            type: 'GET_DB_LIST'
-        }
-        store.dispatch(action)
+        const new_db = []
+        getDBList()
+            .then(res => {
+                let new_db_list = []
+                for (let index in res.data.data) {
+                    new_db_list.push({
+                        key: res.data.data[index]['id'],
+                        id_: res.data.data[index]['id'],
+                        name: res.data.data[index]['name']
+                    })
+                }
+                this.setState({ list: new_db_list })
+            })
+            .catch(error => {
+                console.log('axios 获取数据失败' + error)
+            })
+
+        this.setState({ db: new_db })
+        // console.log(new_db)
     }
 
     render() {
-        console.log(this.state.dbList)
+        console.log(this.state.list)
         return (
             <Card title='数据库'>
-                <Table columns={this.columns} dataSource={this.state.dbList} />
+                <Table columns={this.columns} dataSource={this.state.list} />
             </Card>
         )
     }
